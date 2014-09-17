@@ -1,0 +1,28 @@
+/* simple model for market portfolio and market entropy */
+
+/* define basic element for composition */
+sigma : phi * %e^H;
+pxi1 : -H^2/2/eta^2;
+pxi2 : -(x-sigma*(b*H+g))^2/2/sigma^2;
+
+/* define kernal */
+pxi_knl(x,H,b,g,phi) := ''(1/sqrt(2*%pi)/sigma *%e^pxi2);
+/* define normal probability */
+pxi_npr(H,eta) := ''( 1/sqrt(2*%pi)/eta *%e^pxi1 );
+
+/* ------------------------------------ */
+/* set these assumption for integration */
+
+
+assume(eta > 0);
+assume(Hc > 0);
+
+z0 : expand(integrate(%e^H*pxi_npr(H-Hc,eta), H,minf,inf));
+
+/* answer: %e^(eta^2/2+Hc) */
+
+e0 : expand(integrate(-H*%e^H*pxi_npr(H-Hc,eta), H,minf,inf));
+
+/* (Hc+eta^2)*%e^(Hc+eta^2/2) */
+
+
